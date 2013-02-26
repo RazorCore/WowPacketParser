@@ -31,11 +31,11 @@ namespace WowPacketParser.SQL.Builders
                         row.AddValue("class", startActions.Key.Item2);
                         row.AddValue("button", action.Button);
                         row.AddValue("action", action.Id);
-                        row.AddValue("type", action.Type);
+                        /*row.AddValue("type", action.Type);
                         if (action.Type == ActionButtonType.Spell)
                             row.Comment = StoreGetters.GetName(StoreNameType.Spell, (int)action.Id, false);
                         if (action.Type == ActionButtonType.Item)
-                            row.Comment = StoreGetters.GetName(StoreNameType.Item, (int)action.Id, false);
+                            row.Comment = StoreGetters.GetName(StoreNameType.Item, (int)action.Id, false);*/
 
                         rows.Add(row);
                     }

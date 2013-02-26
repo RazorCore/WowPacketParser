@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using WowPacketParser.Enums;
 
 namespace WowPacketParser.Store.Objects
 {
@@ -13,7 +12,5 @@ namespace WowPacketParser.Store.Objects
         public uint Button;
 
         public uint Id;
-
-        public ActionButtonType Type;
     }
 }

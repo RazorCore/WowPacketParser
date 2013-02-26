@@ -12,6 +12,9 @@ namespace WowPacketParser.Store.Objects
         [DBFieldName("Level")]
         public int Level;
 
+        [DBFieldName("PackageId")]
+        public int PackageId;
+
         [DBFieldName("MinLevel")]
         public int MinLevel;
 
@@ -60,6 +63,9 @@ namespace WowPacketParser.Store.Objects
         [DBFieldName("Flags")]
         public QuestFlags Flags;
 
+        [DBFieldName("Flags2")] //5.x
+        public QuestFlags2 Flags2;
+
         [DBFieldName("MinimapTargetMark")] //4.x
         public uint MinimapTargetMark;
 
@@ -68,9 +74,6 @@ namespace WowPacketParser.Store.Objects
 
         [DBFieldName("RequiredPlayerKills")]
         public uint RequiredPlayerKills;
-
-        [DBFieldName("RewardTalents")]
-        public uint RewardTalents;
 
         [DBFieldName("RewardArenaPoints")]
         public uint RewardArenaPoints;
