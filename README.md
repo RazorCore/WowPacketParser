@@ -1,6 +1,10 @@
-WowPacketParser
+WowPacketParser 5.1.0a
 ========
 
+Information
+--------------------------------------------------
+
+Be carefull using 'RazorCore' Branch! Some parts of the SQL-Output only works with RazorCore Database structure!
 
 Usage
 --------------------------------------------------
