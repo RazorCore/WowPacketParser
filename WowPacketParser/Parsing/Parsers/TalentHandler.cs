@@ -16,7 +16,7 @@ namespace WowPacketParser.Parsing.Parsers
             {
                 if (ClientVersion.AddedInVersion(ClientVersionBuild.V4_0_6a_13623))
                     packet.ReadUInt32("TalentBranchSpec", i);
-                var count2 = packet.ReadByte("Spec Talent Count ", i);
+                var count2 = packet.ReadByte("Spec Talent Count", i);
                 for (var j = 0; j < count2; ++j)
                 {
                     packet.ReadUInt32("Talent Id", i, j);
@@ -25,6 +25,25 @@ namespace WowPacketParser.Parsing.Parsers
 
                 var glyphs = packet.ReadByte("Glyph count");
                 for (var j = 0; j < glyphs; ++j)
+                    packet.ReadUInt16("Glyph", i, j);
+            }
+        }
+
+        public static void ReadTalentInfo510(ref Packet packet)
+        {
+            var specCount = packet.ReadByte("Spec Group count");
+            packet.ReadByte("Active Spec Group");
+
+            for (var i = 0; i < specCount; ++i)
+            {
+                packet.ReadUInt32("Spec Id", i);
+
+                var spentTalents = packet.ReadByte("Spec Talent Count", i);
+                for (var j = 0; j < spentTalents; ++j)
+                    packet.ReadUInt16("Talent Id", i, j);
+
+                var glyphCount = packet.ReadByte("Glyph count", i);
+                for (var j = 0; j < glyphCount; ++j)
                     packet.ReadUInt16("Glyph", i, j);
             }
         }
@@ -114,6 +133,12 @@ namespace WowPacketParser.Parsing.Parsers
         [Parser(Opcode.SMSG_TALENTS_INFO)]
         public static void HandleTalentsInfo(Packet packet)
         {
+            if (ClientVersion.AddedInVersion(ClientVersionBuild.V5_1_0_16309))
+            {
+                ReadTalentInfo510(ref packet);
+                return;
+            }
+
             var pet = packet.ReadBoolean("Pet Talents");
             if (pet)
             {
@@ -168,10 +193,25 @@ namespace WowPacketParser.Parsing.Parsers
             packet.ReadUInt32("Rank");
         }
 
+        [Parser(Opcode.CMSG_LEARN_TALENTS)] // 5.1.0
+        public static void HandleLearnTalents(Packet packet)
+        {
+            var talentCount = packet.ReadBits("Learned Talent Count", 25);
+
+            for (int i = 0; i < talentCount; i++)
+                packet.ReadUInt16("Talent Id", i);
+        }
+
         [Parser(Opcode.SMSG_TALENTS_ERROR)]
         public static void HandleTalentError(Packet packet)
         {
             packet.ReadEnum<TalentError>("Talent Error", TypeCode.Int32);
+        }
+
+        [Parser(Opcode.CMSG_SET_SPECIALIZATION)]
+        public static void HandleSetSpec(Packet packet)
+        {
+            packet.ReadInt32("Spec Group Id");
         }
 
         //[Parser(Opcode.CMSG_UNLEARN_TALENTS)]

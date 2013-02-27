@@ -69,9 +69,9 @@ namespace WowPacketParser.Misc
 
             if (ClientVersion.AddedInVersion(ClientVersionBuild.V5_1_0_16309))
             {
-                var playerCheck = (HighGuidType) ((Full >> 52) & 0xF00);
-                if (playerCheck == HighGuidType.Player)
-                    return playerCheck;
+                var extraCheck = (HighGuidType) ((Full >> 52) & 0xF00);
+                if (extraCheck == HighGuidType.Player || extraCheck == HighGuidType.Item)
+                    return extraCheck;
             }
 
             var highGUID = (HighGuidType)((Full & 0xF0F0000000000000) >> 52);

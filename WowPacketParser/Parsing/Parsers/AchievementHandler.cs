@@ -408,7 +408,7 @@ namespace WowPacketParser.Parsing.Parsers
                 packet.ReadPackedTime("Achievement Date", i);
                 packet.ReadUInt32("Achievement Id", i);
                 packet.ReadXORByte(achievementGuid[i], 5);
-                packet.WriteGuid("Achievement GUID", achievementGuid[i], i);
+                packet.WriteGuid("Achievement Completer GUID", achievementGuid[i], i);
             }
 
             for (var i = 0; i < criterias; ++i)
@@ -436,7 +436,7 @@ namespace WowPacketParser.Parsing.Parsers
 
                 packet.WriteLine("[{0}] Criteria Flags: {1}", i, flags[i]);
                 packet.WriteLine("[{0}] Criteria Counter: {1}", i, BitConverter.ToUInt64(counter[i], 0));
-                packet.WriteGuid("Criteria GUID", guid[i], i);
+                packet.WriteGuid("Criteria Completer GUID", guid[i], i);
             }
         }
     }
