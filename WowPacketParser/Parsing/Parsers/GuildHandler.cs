@@ -2027,11 +2027,19 @@ namespace WowPacketParser.Parsing.Parsers
                 packet.ReadUInt32("Criteria Id", i);
         }
 
-        [Parser(Opcode.CMSG_QUERY_GUILD_RECIPES)] // 4.3.4
+        [Parser(Opcode.CMSG_QUERY_GUILD_RECIPES, ClientVersionBuild.Zero, ClientVersionBuild.V5_1_0_16309)] // 4.3.4
         public static void HandleQueryGuildRecipes(Packet packet)
         {
             var guid = packet.StartBitStream(5, 6, 1, 4, 2, 7, 0, 3);
             packet.ParseBitStream(guid, 3, 1, 0, 5, 4, 2, 6, 7);
+            packet.WriteGuid("Guild Guid", guid);
+        }
+
+        [Parser(Opcode.CMSG_QUERY_GUILD_RECIPES, ClientVersionBuild.V5_1_0_16309)]
+        public static void HandleQueryGuildRecipes510(Packet packet)
+        {
+            var guid = packet.StartBitStream(1, 4, 3, 5, 0, 6, 2, 7);
+            packet.ParseBitStream(guid, 5, 3, 1, 4, 0, 7, 6, 2);
             packet.WriteGuid("Guild Guid", guid);
         }
 
