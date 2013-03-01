@@ -210,6 +210,7 @@ namespace WowPacketParser.Enums
         UNIT_VIRTUAL_ITEM_SLOT_ID1,
         UNIT_VIRTUAL_ITEM_SLOT_ID2,
         UNIT_VIRTUAL_ITEM_SLOT_ID3,
+        UNIT_FIELD_END,
     }
 
     public enum PlayerField
