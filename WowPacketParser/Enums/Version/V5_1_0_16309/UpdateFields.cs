@@ -153,7 +153,7 @@ namespace WowPacketParser.Enums.Version.V5_1_0_16309
         PLAYER_FIELD_HOME_PLAYER_REALM                      = UnitField.UNIT_FIELD_END + 0x0321,
         PLAYER_FIELD_CURRENT_SPEC_ID                        = UnitField.UNIT_FIELD_END + 0x0322,
         PLAYER_FIELD_TAXI_MOUNT_ANIM_KIT_ID                 = UnitField.UNIT_FIELD_END + 0x0323,
-        PLAYER_FIELD_PARTY_TYPE                             = UnitField.UNIT_FIELD_END + 0x0324,
+        PLAYER_FIELD_CURRENT_BATTLE_PET_BREED_QUALITY       = UnitField.UNIT_FIELD_END + 0x0324,
         PLAYER_FIELD_INV_SLOTS                              = UnitField.UNIT_FIELD_END + 0x0325,
         PLAYER_FIELD_FARSIGHT_OBJECT                        = UnitField.UNIT_FIELD_END + 0x03D1,
         PLAYER_FIELD_KNOWN_TITLES                           = UnitField.UNIT_FIELD_END + 0x03D3,

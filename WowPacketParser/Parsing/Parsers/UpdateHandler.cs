@@ -2936,11 +2936,19 @@ namespace WowPacketParser.Parsing.Parsers
                 packet.ReadBoolean("Despawn Animation");
         }
 
-        [Parser(Opcode.CMSG_OBJECT_UPDATE_FAILED)] // 4.3.4
+        [Parser(Opcode.CMSG_OBJECT_UPDATE_FAILED, ClientVersionBuild.Zero, ClientVersionBuild.V5_1_0_16309)] // 4.3.4
         public static void HandleObjectUpdateFailed(Packet packet)
         {
             var guid = packet.StartBitStream(6, 7, 4, 0, 1, 5, 3, 2);
             packet.ParseBitStream(guid, 6, 7, 2, 3, 1, 4, 0, 5);
+            packet.WriteGuid("Guid", guid);
+        }
+
+        [Parser(Opcode.CMSG_OBJECT_UPDATE_FAILED, ClientVersionBuild.V5_1_0_16309)]
+        public static void HandleObjectUpdateFailed510(Packet packet)
+        {
+            var guid = packet.StartBitStream(5, 3, 0, 6, 1, 4, 2, 7);
+            packet.ParseBitStream(guid, 2, 3, 7, 4, 5, 1, 0, 6);
             packet.WriteGuid("Guid", guid);
         }
     }

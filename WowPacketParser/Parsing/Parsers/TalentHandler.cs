@@ -29,25 +29,6 @@ namespace WowPacketParser.Parsing.Parsers
             }
         }
 
-        public static void ReadTalentInfo510(ref Packet packet)
-        {
-            var specCount = packet.ReadByte("Spec Group count");
-            packet.ReadByte("Active Spec Group");
-
-            for (var i = 0; i < specCount; ++i)
-            {
-                packet.ReadUInt32("Spec Id", i);
-
-                var spentTalents = packet.ReadByte("Spec Talent Count", i);
-                for (var j = 0; j < spentTalents; ++j)
-                    packet.ReadUInt16("Talent Id", i, j);
-
-                var glyphCount = packet.ReadByte("Glyph count", i);
-                for (var j = 0; j < glyphCount; ++j)
-                    packet.ReadUInt16("Glyph", i, j);
-            }
-        }
-
         public static void ReadInspectPart(ref Packet packet)
         {
             var slotMask = packet.ReadUInt32("Slot Mask");
@@ -130,15 +111,18 @@ namespace WowPacketParser.Parsing.Parsers
                 packet.ReadUInt32("Gold");
         }
 
-        [Parser(Opcode.SMSG_TALENTS_INFO)]
+        [Parser(Opcode.MSG_RESPEC_WIPE_CONFIRM)]
+        public static void HandleRespecWipeConfirm(Packet packet)
+        {
+            packet.ReadByte("Spec Group");
+            var guid = packet.StartBitStream(5, 3, 2, 7, 0, 6, 1, 4);
+            packet.ParseBitStream(guid, 0, 1, 2, 3, 5, 6, 7, 4);
+            packet.WriteGuid("GUID", guid);
+        }
+
+        [Parser(Opcode.SMSG_TALENTS_INFO, ClientVersionBuild.Zero, ClientVersionBuild.V5_1_0_16309)]
         public static void HandleTalentsInfo(Packet packet)
         {
-            if (ClientVersion.AddedInVersion(ClientVersionBuild.V5_1_0_16309))
-            {
-                ReadTalentInfo510(ref packet);
-                return;
-            }
-
             var pet = packet.ReadBoolean("Pet Talents");
             if (pet)
             {
@@ -152,6 +136,26 @@ namespace WowPacketParser.Parsing.Parsers
             }
             else
                 ReadTalentInfo(ref packet);
+        }
+
+        [Parser(Opcode.SMSG_TALENTS_INFO, ClientVersionBuild.V5_1_0_16309)]
+        public static void ReadTalentInfo510(ref Packet packet)
+        {
+            var specCount = packet.ReadByte("Spec Group count");
+            packet.ReadByte("Active Spec Group");
+
+            for (var i = 0; i < specCount; ++i)
+            {
+                packet.ReadUInt32("Spec Id", i);
+
+                var spentTalents = packet.ReadByte("Spec Talent Count", i);
+                for (var j = 0; j < spentTalents; ++j)
+                    packet.ReadUInt16("Talent Id", i, j);
+
+                var glyphCount = packet.ReadByte("Glyph count", i);
+                for (var j = 0; j < glyphCount; ++j)
+                    packet.ReadUInt16("Glyph", i, j);
+            }
         }
 
         [Parser(Opcode.CMSG_LEARN_PREVIEW_TALENTS, ClientVersionBuild.Zero, ClientVersionBuild.V4_3_4_15595)]

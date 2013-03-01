@@ -1310,11 +1310,19 @@ namespace WowPacketParser.Parsing.Parsers
             packet.WriteGuid("GUID", guid);
         }
 
-        [Parser(Opcode.CMSG_GUILD_REQUEST_MAX_DAILY_XP, ClientVersionBuild.V4_3_4_15595)]
+        [Parser(Opcode.CMSG_GUILD_REQUEST_MAX_DAILY_XP, ClientVersionBuild.V4_3_4_15595, ClientVersionBuild.V5_1_0_16309)]
         public static void HandleGuildRequestMaxDailyXP434(Packet packet)
         {
             var guid = packet.StartBitStream(0, 3, 5, 1, 4, 6, 7, 2);
             packet.ParseBitStream(guid, 7, 4, 3, 5, 1, 2, 6, 0);
+            packet.WriteGuid("GUID", guid);
+        }
+
+        [Parser(Opcode.CMSG_GUILD_REQUEST_MAX_DAILY_XP, ClientVersionBuild.V5_1_0_16309)]
+        public static void HandleGuildRequestMaxDailyXP510(Packet packet)
+        {
+            var guid = packet.StartBitStream(5, 3, 6, 4, 7, 2, 1, 0);
+            packet.ParseBitStream(guid, 4, 7, 5, 6, 0, 1, 2, 3);
             packet.WriteGuid("GUID", guid);
         }
 
