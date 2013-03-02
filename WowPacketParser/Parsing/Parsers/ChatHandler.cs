@@ -49,7 +49,12 @@ namespace WowPacketParser.Parsing.Parsers
         public static void HandleTextEmote(Packet packet)
         {
             packet.ReadInt32("Text Emote ID");
-            packet.ReadEnum<EmoteType>("Emote ID", TypeCode.Int32);
+
+            if (ClientVersion.AddedInVersion(ClientType.Cataclysm))
+                packet.ReadInt32("Text Emote Type"); // 0 - used as Emote / -1 - used as EmoteState?!
+            else
+                packet.ReadEnum<EmoteType>("Emote ID", TypeCode.Int32);
+
             packet.ReadGuid("GUID");
         }
 
@@ -58,7 +63,12 @@ namespace WowPacketParser.Parsing.Parsers
         {
             packet.ReadGuid("GUID");
             packet.ReadInt32("Text Emote ID");
-            packet.ReadEnum<EmoteType>("Emote ID", TypeCode.Int32);
+
+            if (ClientVersion.AddedInVersion(ClientType.Cataclysm))
+                packet.ReadInt32("Text Emote Type"); // 0 - used as Emote / -1 - used as EmoteState?!
+            else
+                packet.ReadEnum<EmoteType>("Emote ID", TypeCode.Int32);
+
             packet.ReadInt32("Name length");
             packet.ReadCString("Name");
         }
